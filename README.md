@@ -12,7 +12,7 @@ WeatherKit for Objective-C (WIP)
 
 CLLocation *location;
 
-[[BPWeatherService sharedInstance] weatherForLocation:location completionHandler:^(BPWeather * _Nullable weather, NSError * _Nullable error) {
+[BPWeatherService.sharedInstance weatherForLocation:location completionHandler:^(BPWeather * _Nullable weather, NSError * _Nullable error) {
 
 }];
 ```
