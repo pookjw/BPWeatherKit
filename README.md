@@ -1,2 +1,3 @@
 # BPWeatherKit
-WeatherKit for Objective-C
+
+A description of this package.
