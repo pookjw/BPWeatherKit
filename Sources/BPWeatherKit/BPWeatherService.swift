@@ -15,7 +15,7 @@ import CoreLocation
         self.init(weatherService: .init())
     }
     
-    private init(weatherService: WeatherService) {
+    @nonobjc private init(weatherService: WeatherService) {
         self.weatherService = weatherService
     }
     
