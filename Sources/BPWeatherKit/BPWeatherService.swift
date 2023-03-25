@@ -1,6 +1,6 @@
 import Foundation
-import WeatherKit
 import CoreLocation
+import WeatherKit
 
 @objcMembers open class BPWeatherService: NSObject, @unchecked Sendable {
     /// A single, shared weather service object.
