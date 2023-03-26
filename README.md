@@ -1,6 +1,6 @@
 # BPWeatherKit
 
-WeatherKit for Objective-C (WIP)
+WeatherKit for Objective-C
 
 ## Usage
 
