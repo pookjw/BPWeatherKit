@@ -6,16 +6,44 @@
 //
 
 #import "ViewController.h"
+@import CoreLocation;
+@import BPWeatherKit;
 
-@interface ViewController ()
-
+@interface ViewController () <CLLocationManagerDelegate>
+@property (strong) CLLocationManager *locationManager;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = UIColor.systemPurpleColor;
+    CLLocationManager *locationManager = [CLLocationManager new];
+    
+    locationManager.delegate = self;
+    [locationManager requestAlwaysAuthorization];
+    
+    self.locationManager = locationManager;
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    CLLocation *location = locations.firstObject;
+   
+    NSArray *queires = @[
+        [BPWeatherQuery current],
+        [BPWeatherQuery minute],
+        [BPWeatherQuery hourly]
+    ];
+    
+    [BPWeatherService.sharedInstance weatherForLocation:location includingQueries:queires completionHandler:^(NSArray * _Nullable results, NSError * _Nullable error) {
+        NSLog(@"%@ %@", results, error);
+    }];
+    
+    [manager stopUpdatingLocation];
+}
+
+- (void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager {
+    [manager startUpdatingLocation];
 }
 
 @end
+
