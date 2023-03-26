@@ -86,4 +86,8 @@ import WeatherKit
         .sorted(by: { $0.key < $1.key })
         .map { $0.value }
     }
+    
+    open func attribution() async throws -> BPWeatherAttribution {
+        try await .init(weatherAttribution: weatherService.attribution)
+    }
 }
