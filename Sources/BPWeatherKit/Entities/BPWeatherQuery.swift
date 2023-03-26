@@ -72,6 +72,12 @@ import WeatherKit
     private static let weatherQueryStartDateKey: String = "weatherQueryStartDateKey"
     private static let weatherQueryEndDateKey: String = "weatherQueryEndDateKey"
     
+    open override var hash: Int {
+        var hasher: Hasher = .init()
+        hasher.combine(weatherQuery)
+        return hasher.finalize()
+    }
+    
     internal let weatherQuery: WeatherQuery
     
     public required convenience init?(coder: NSCoder) {
@@ -165,5 +171,13 @@ import WeatherKit
         case ._hourly(let startDate, let endDate):
             return Self.hourly(startDate: startDate!, endDate: endDate!)
         }
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let other: BPWeatherQuery = object as? BPWeatherQuery else {
+            return super.isEqual(object)
+        }
+        
+        return weatherQuery == other.weatherQuery
     }
 }

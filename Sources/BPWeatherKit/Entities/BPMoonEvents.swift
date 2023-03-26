@@ -8,6 +8,16 @@ import WeatherKit
     public let moonset: Date?
     public let phase: BPMoonPhase
     
+    open override var hash: Int {
+        var hasher: Hasher = .init()
+        
+        hasher.combine(moonrise)
+        hasher.combine(moonset)
+        hasher.combine(phase)
+        
+        return hasher.finalize()
+    }
+    
     public required convenience init?(coder: NSCoder) {
         let phaseRawValue: BPMoonPhase.RawValue = coder.decodeInteger(forKey: #keyPath(phase))
         

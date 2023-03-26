@@ -20,6 +20,28 @@ import WeatherKit
     public let metadata: BPWeatherMetadata
     public let symbolName: String
     
+    open override var hash: Int {
+        var hasher: Hasher = .init()
+        
+        hasher.combine(apparentTemperature)
+        hasher.combine(dewPoint)
+        hasher.combine(humidity)
+        hasher.combine(temperature)
+        hasher.combine(pressure)
+        hasher.combine(pressureTrend)
+        hasher.combine(wind)
+        hasher.combine(cloudCover)
+        hasher.combine(condition)
+        hasher.combine(date)
+        hasher.combine(isDaylight)
+        hasher.combine(uvIndex)
+        hasher.combine(visibility)
+        hasher.combine(metadata)
+        hasher.combine(symbolName)
+        
+        return hasher.finalize()
+    }
+    
     public required convenience init?(coder: NSCoder) {
         let pressureTrendRawValue: BPPressureTrend.RawValue = coder.decodeInteger(forKey: #keyPath(pressureTrend))
         let conditionRawValue: BPWeatherCondition.RawValue = coder.decodeInteger(forKey: #keyPath(condition))
@@ -155,5 +177,27 @@ import WeatherKit
             metadata: metadata,
             symbolName: symbolName
         )
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let other: BPCurrentWeather = object as? BPCurrentWeather else {
+            return super.isEqual(object)
+        }
+        
+        return apparentTemperature == other.apparentTemperature &&
+        dewPoint == other.dewPoint &&
+        humidity == other.humidity &&
+        temperature == other.temperature &&
+        pressure == other.pressure &&
+        pressureTrend == other.pressureTrend &&
+        wind == other.wind &&
+        cloudCover == other.cloudCover &&
+        condition == other.condition &&
+        date == other.date &&
+        isDaylight == other.isDaylight &&
+        uvIndex == other.uvIndex &&
+        visibility == other.visibility &&
+        metadata == other.metadata &&
+        symbolName == other.symbolName
     }
 }

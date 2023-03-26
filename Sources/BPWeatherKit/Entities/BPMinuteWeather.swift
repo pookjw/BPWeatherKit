@@ -9,6 +9,17 @@ import WeatherKit
     public let precipitationIntensity: Measurement<UnitSpeed>
     public let date: Date
     
+    open override var hash: Int {
+        var hasher: Hasher = .init()
+        
+        hasher.combine(precipitation)
+        hasher.combine(precipitationChance)
+        hasher.combine(precipitationIntensity)
+        hasher.combine(date)
+        
+        return hasher.finalize()
+    }
+    
     public required convenience init?(coder: NSCoder) {
         let precipitationRawValue: BPPrecipitation.RawValue = coder.decodeInteger(forKey: #keyPath(precipitation))
         
@@ -68,5 +79,16 @@ import WeatherKit
             precipitationIntensity: precipitationIntensity,
             date: date
         )
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let other: BPMinuteWeather = object as? BPMinuteWeather else {
+            return super.isEqual(object)
+        }
+        
+        return precipitation == other.precipitation &&
+        precipitationChance == other.precipitationChance &&
+        precipitationIntensity == other.precipitationIntensity &&
+        date == other.date
     }
 }

@@ -102,6 +102,17 @@ import WeatherKit
     public let gust: Measurement<UnitSpeed>?
     public let speed: Measurement<UnitSpeed>
     
+    open override var hash: Int {
+        var hasher: Hasher = .init()
+        
+        hasher.combine(compassDirection)
+        hasher.combine(direction)
+        hasher.combine(gust)
+        hasher.combine(speed)
+        
+        return hasher.finalize()
+    }
+    
     public required convenience init?(coder: NSCoder) {
         let compassDirectionRawValue: CompassDirection.RawValue = coder.decodeInteger(forKey: #keyPath(compassDirection))
         
@@ -159,6 +170,17 @@ import WeatherKit
             gust: gust,
             speed: speed
         )
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let other: BPWind = object as? BPWind else {
+            return super.isEqual(object)
+        }
+        
+        return compassDirection == other.compassDirection &&
+        direction == other.direction &&
+        gust == other.gust &&
+        speed == other.speed
     }
 }
 

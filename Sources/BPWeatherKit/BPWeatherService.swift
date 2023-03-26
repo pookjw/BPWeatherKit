@@ -60,7 +60,26 @@ import WeatherKit
             return try await group
                 .reduce(.init()) { partialResult, next in
                     var result: [Int: Any] = partialResult
-                    result[next.0] = next.1
+                    
+                    var newValue: Any
+                    
+                    if let alerts: [WeatherAlert] = next.1 as? [WeatherAlert] {
+                        newValue = alerts.map { BPWeatherAlert(weatherAlert: $0) }
+                    } else if let availablity: WeatherAvailability = next.1 as? WeatherAvailability {
+                        newValue = BPWeatherAvailablity(weatherAvailablity: availablity)
+                    } else if let currentWeather: CurrentWeather = next.1 as? CurrentWeather {
+                        newValue = BPCurrentWeather(currentWeather: currentWeather)
+                    } else if let dailyForecast: Forecast<DayWeather> = next.1 as? Forecast<DayWeather> {
+                        newValue = BPForecast(dailyForecast: dailyForecast)
+                    } else if let hourlyForecast: Forecast<HourWeather> = next.1 as? Forecast<HourWeather> {
+                        newValue = BPForecast(hourlyForecast: hourlyForecast)
+                    } else if let minuteForecast: Forecast<MinuteWeather> = next.1 as? Forecast<MinuteWeather> {
+                        newValue = BPForecast(minuteForecast: minuteForecast)
+                    } else {
+                        newValue = NSNull()
+                    }
+                    
+                    result[next.0] = newValue
                     return result
                 }
         }

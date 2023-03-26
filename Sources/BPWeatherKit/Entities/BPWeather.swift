@@ -11,6 +11,19 @@ import WeatherKit
     public let minuteForecast: BPForecast?
     public let weatherAlerts: [BPWeatherAlert]?
     
+    open override var hash: Int {
+        var hasher: Hasher = .init()
+        
+        hasher.combine(availability)
+        hasher.combine(currentWeather)
+        hasher.combine(dailyForecast)
+        hasher.combine(hourlyForecast)
+        hasher.combine(minuteForecast)
+        hasher.combine(weatherAlerts)
+        
+        return hasher.finalize()
+    }
+    
     public required convenience init?(coder: NSCoder) {
         guard
             let availability: BPWeatherAvailablity = coder.decodeObject(forKey: #keyPath(availability)) as? BPWeatherAvailablity,
@@ -88,5 +101,18 @@ import WeatherKit
             minuteForecast: minuteForecast,
             weatherAlerts: weatherAlerts
         )
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let other: BPWeather = object as? BPWeather else {
+            return super.isEqual(object)
+        }
+        
+        return availability == other.availability &&
+        currentWeather == other.currentWeather &&
+        dailyForecast == other.dailyForecast &&
+        hourlyForecast == other.hourlyForecast &&
+        minuteForecast == other.minuteForecast &&
+        weatherAlerts == other.weatherAlerts
     }
 }

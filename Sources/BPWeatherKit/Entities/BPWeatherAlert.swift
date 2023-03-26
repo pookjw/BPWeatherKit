@@ -11,6 +11,19 @@ import WeatherKit
     public let detailsURL: URL
     public let source: String
     
+    open override var hash: Int {
+        var hasher: Hasher = .init()
+        
+        hasher.combine(metadata)
+        hasher.combine(region)
+        hasher.combine(severity)
+        hasher.combine(summary)
+        hasher.combine(detailsURL)
+        hasher.combine(source)
+        
+        return hasher.finalize()
+    }
+    
     public required convenience init?(coder: NSCoder) {
         let severityRawValue: BPWeatherSeverity.RawValue = coder.decodeInteger(forKey: #keyPath(severity))
         
@@ -83,5 +96,18 @@ import WeatherKit
             detailsURL: detailsURL,
             source: source
         )
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let other: BPWeatherAlert = object as? BPWeatherAlert else {
+            return super.isEqual(object)
+        }
+        
+        return metadata == other.metadata &&
+        region == other.region &&
+        severity == other.severity &&
+        summary == other.summary &&
+        detailsURL == other.detailsURL &&
+        source == other.source
     }
 }

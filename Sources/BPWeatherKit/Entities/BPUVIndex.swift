@@ -64,6 +64,15 @@ import WeatherKit
     public let cateogory: ExposureCategory
     public let value: Int
     
+    open override var hash: Int {
+        var hasher: Hasher = .init()
+        
+        hasher.combine(cateogory)
+        hasher.combine(value)
+        
+        return hasher.finalize()
+    }
+    
     public required convenience init?(coder: NSCoder) {
         let categoryRawValue: ExposureCategory.RawValue = coder.decodeInteger(forKey: #keyPath(cateogory))
         
@@ -105,5 +114,14 @@ import WeatherKit
             cateogory: cateogory,
             value: value
         )
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let other: BPUVIndex = object as? BPUVIndex else {
+            return super.isEqual(object)
+        }
+        
+        return cateogory == other.cateogory &&
+        value == other.value
     }
 }

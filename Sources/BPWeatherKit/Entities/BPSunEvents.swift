@@ -15,6 +15,23 @@ import WeatherKit
     public let sunrise: Date?
     public let sunset: Date?
     
+    open override var hash: Int {
+        var hasher: Hasher = .init()
+        
+        hasher.combine(astronomicalDawn)
+        hasher.combine(astronomicalDusk)
+        hasher.combine(civilDawn)
+        hasher.combine(civilDusk)
+        hasher.combine(nauticalDawn)
+        hasher.combine(nauticalDusk)
+        hasher.combine(solarMidnight)
+        hasher.combine(solarNoon)
+        hasher.combine(sunrise)
+        hasher.combine(sunset)
+        
+        return hasher.finalize()
+    }
+    
     public required convenience init?(coder: NSCoder) {
         let astronomicalDawn: Date? = coder.decodeObject(forKey: #keyPath(astronomicalDawn)) as? Date
         let astronomicalDusk: Date? = coder.decodeObject(forKey: #keyPath(astronomicalDusk)) as? Date
@@ -108,5 +125,22 @@ import WeatherKit
             sunrise: sunrise,
             sunset: sunset
         )
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let other: BPSunEvents = object as? BPSunEvents else {
+            return super.isEqual(object)
+        }
+        
+        return astronomicalDawn == other.astronomicalDawn &&
+        astronomicalDusk == other.astronomicalDusk &&
+        civilDawn == other.civilDawn &&
+        civilDusk == other.civilDusk &&
+        nauticalDawn == other.nauticalDawn &&
+        nauticalDusk == other.nauticalDusk &&
+        solarMidnight == other.solarMidnight &&
+        solarNoon == other.solarNoon &&
+        sunrise == other.sunrise &&
+        sunset == other.sunset
     }
 }

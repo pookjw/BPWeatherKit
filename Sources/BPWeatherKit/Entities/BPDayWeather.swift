@@ -18,6 +18,26 @@ import WeatherKit
     public let uvIndex: BPUVIndex
     public let symbolName: String
     
+    open override var hash: Int {
+        var hasher: Hasher = .init()
+        
+        hasher.combine(highTemperature)
+        hasher.combine(lowTemperature)
+        hasher.combine(precipitation)
+        hasher.combine(precipitationChance)
+        hasher.combine(precipitationAmount)
+        hasher.combine(snowfallAmount)
+        hasher.combine(moon)
+        hasher.combine(sun)
+        hasher.combine(wind)
+        hasher.combine(date)
+        hasher.combine(condition)
+        hasher.combine(uvIndex)
+        hasher.combine(symbolName)
+        
+        return hasher.finalize()
+    }
+    
     public required convenience init?(coder: NSCoder) {
         let conditionRawValue: BPWeatherCondition.RawValue = coder.decodeInteger(forKey: #keyPath(condition))
         
@@ -129,7 +149,7 @@ import WeatherKit
             lowTemperature: lowTemperature,
             precipitation: precipitation,
             precipitationChance: precipitationChance,
-            precipitationAmount:precipitationAmount,
+            precipitationAmount: precipitationAmount,
             snowfallAmount: snowfallAmount,
             moon: moon.copy() as! BPMoonEvents,
             sun: sun.copy() as! BPSunEvents,
@@ -139,5 +159,25 @@ import WeatherKit
             uvIndex: uvIndex.copy() as! BPUVIndex,
             symbolName: symbolName
         )
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let other: BPDayWeather = object as? BPDayWeather else {
+            return super.isEqual(object)
+        }
+        
+        return highTemperature == other.highTemperature &&
+        lowTemperature == other.lowTemperature &&
+        precipitation == other.precipitation &&
+        precipitationChance == other.precipitationChance &&
+        precipitationAmount == other.precipitationAmount &&
+        snowfallAmount == other.snowfallAmount &&
+        moon == other.moon &&
+        sun == other.sun &&
+        wind == other.wind &&
+        date == other.date &&
+        condition == other.condition &&
+        uvIndex == other.uvIndex &&
+        symbolName == other.symbolName
     }
 }

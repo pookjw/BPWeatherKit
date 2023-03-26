@@ -22,6 +22,30 @@ import WeatherKit
     public let precipitationAmount: Measurement<UnitLength>
     public let symbolName: String
     
+    open override var hash: Int {
+        var hasher: Hasher = .init()
+        
+        hasher.combine(apparentTemperature)
+        hasher.combine(humidity)
+        hasher.combine(temperature)
+        hasher.combine(dewPoint)
+        hasher.combine(pressure)
+        hasher.combine(pressureTrend)
+        hasher.combine(cloudCover)
+        hasher.combine(condition)
+        hasher.combine(isDaylight)
+        hasher.combine(visibility)
+        hasher.combine(uvIndex)
+        hasher.combine(wind)
+        hasher.combine(date)
+        hasher.combine(precipitation)
+        hasher.combine(precipitationChance)
+        hasher.combine(precipitationAmount)
+        hasher.combine(symbolName)
+        
+        return hasher.finalize()
+    }
+    
     public required convenience init?(coder: NSCoder) {
         let pressureTrendRawValue: BPPressureTrend.RawValue = coder.decodeInteger(forKey: #keyPath(pressureTrend))
         let conditionRawValue: BPWeatherCondition.RawValue = coder.decodeInteger(forKey: #keyPath(condition))
@@ -173,5 +197,29 @@ import WeatherKit
             precipitationAmount: precipitationAmount,
             symbolName: symbolName
         )
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let other: BPHourWeather = object as? BPHourWeather else {
+            return super.isEqual(object)
+        }
+        
+        return apparentTemperature == other.apparentTemperature &&
+        humidity == other.humidity &&
+        temperature == other.temperature &&
+        dewPoint == other.dewPoint &&
+        pressure == other.pressure &&
+        pressureTrend == other.pressureTrend &&
+        cloudCover == other.cloudCover &&
+        condition == other.condition &&
+        isDaylight == other.isDaylight &&
+        visibility == other.visibility &&
+        uvIndex == other.uvIndex &&
+        wind == other.wind &&
+        date == other.date &&
+        precipitation == other.precipitation &&
+        precipitationChance == other.precipitationChance &&
+        precipitationAmount == other.precipitationAmount &&
+        symbolName == other.symbolName
     }
 }
