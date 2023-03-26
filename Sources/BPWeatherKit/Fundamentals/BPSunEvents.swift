@@ -15,7 +15,7 @@ import WeatherKit
     public let sunrise: Date?
     public let sunset: Date?
     
-    public required init?(coder: NSCoder) {
+    public required convenience init?(coder: NSCoder) {
         let astronomicalDawn: Date? = coder.decodeObject(forKey: #keyPath(astronomicalDawn)) as? Date
         let astronomicalDusk: Date? = coder.decodeObject(forKey: #keyPath(astronomicalDusk)) as? Date
         let civilDawn: Date? = coder.decodeObject(forKey: #keyPath(civilDawn)) as? Date
@@ -27,18 +27,18 @@ import WeatherKit
         let sunrise: Date? = coder.decodeObject(forKey: #keyPath(sunrise)) as? Date
         let sunset: Date? = coder.decodeObject(forKey: #keyPath(sunset)) as? Date
         
-        self.astronomicalDawn = astronomicalDawn
-        self.astronomicalDusk = astronomicalDusk
-        self.civilDawn = civilDawn
-        self.civilDusk = civilDusk
-        self.nauticalDawn = nauticalDawn
-        self.nauticalDusk = nauticalDusk
-        self.solarMidnight = solarMidnight
-        self.solarNoon = solarNoon
-        self.sunrise = sunrise
-        self.sunset = sunset
-        
-        super.init()
+        self.init(
+            astronomicalDawn: astronomicalDawn,
+            astronomicalDusk: astronomicalDusk,
+            civilDawn: civilDawn,
+            civilDusk: civilDusk,
+            nauticalDawn: nauticalDawn,
+            nauticalDusk: nauticalDusk,
+            solarMidnight: solarMidnight,
+            solarNoon: solarNoon,
+            sunrise: sunrise,
+            sunset: sunset
+        )
     }
     
     @nonobjc public convenience init(sunEvents: SunEvents) {

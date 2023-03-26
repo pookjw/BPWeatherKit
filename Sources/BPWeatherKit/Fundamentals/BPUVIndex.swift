@@ -64,8 +64,8 @@ import WeatherKit
     public let cateogory: ExposureCategory
     public let value: Int
     
-    public required init?(coder: NSCoder) {
-        let categoryRawValue: Int = coder.decodeInteger(forKey: #keyPath(cateogory))
+    public required convenience init?(coder: NSCoder) {
+        let categoryRawValue: ExposureCategory.RawValue = coder.decodeInteger(forKey: #keyPath(cateogory))
         
         guard let category: ExposureCategory = .init(rawValue: categoryRawValue) else {
             return nil
@@ -73,10 +73,10 @@ import WeatherKit
         
         let value: Int = coder.decodeInteger(forKey: #keyPath(value))
         
-        self.cateogory = category
-        self.value = value
-        
-        super.init()
+        self.init(
+            cateogory: category,
+            value: value
+        )
     }
     
     @nonobjc public convenience init(uvIndex: UVIndex) {

@@ -102,8 +102,8 @@ import WeatherKit
     public let gust: Measurement<UnitSpeed>?
     public let speed: Measurement<UnitSpeed>
     
-    public required init?(coder: NSCoder) {
-        let compassDirectionRawValue: Int = coder.decodeInteger(forKey: #keyPath(compassDirection))
+    public required convenience init?(coder: NSCoder) {
+        let compassDirectionRawValue: CompassDirection.RawValue = coder.decodeInteger(forKey: #keyPath(compassDirection))
         
         guard
             let compassDirection: CompassDirection = .init(rawValue: compassDirectionRawValue),
@@ -115,12 +115,12 @@ import WeatherKit
         
         let gust: Measurement<UnitSpeed>? = coder.decodeObject(forKey: #keyPath(gust)) as? Measurement<UnitSpeed>
         
-        self.compassDirection = compassDirection
-        self.direction = direction
-        self.gust = gust
-        self.speed = speed
-        
-        super.init()
+        self.init(
+            compassDirection: compassDirection,
+            direction: direction,
+            gust: gust,
+            speed: speed
+        )
     }
     
     @nonobjc public convenience init(wind: Wind) {

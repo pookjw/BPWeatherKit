@@ -13,7 +13,7 @@ import WeatherKit
     /// Available when elementType is BPMinuteWeather.
     public let summary: String?
     
-    public required init?(coder: NSCoder) {
+    public required convenience init?(coder: NSCoder) {
         guard
             let elementTypeName: String = coder.decodeObject(forKey: #keyPath(elementType)) as? String,
             let elementType: (NSCoding & NSCopying).Type = NSClassFromString(elementTypeName) as? (NSCoding & NSCopying).Type,
@@ -25,12 +25,12 @@ import WeatherKit
         
         let summary: String? = coder.decodeObject(forKey: #keyPath(summary)) as? String
         
-        self.elementType = elementType
-        self.elements = elements
-        self.metadata = metadata
-        self.summary = summary
-        
-        super.init()
+        self.init(
+            elementType: elementType,
+            elements: elements,
+            metadata: metadata,
+            summary: summary
+        )
     }
     
     @nonobjc public convenience init(dailyForecast: Forecast<DayWeather>) {

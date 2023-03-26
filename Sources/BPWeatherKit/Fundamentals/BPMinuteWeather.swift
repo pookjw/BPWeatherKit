@@ -9,8 +9,8 @@ import WeatherKit
     public let precipitationIntensity: Measurement<UnitSpeed>
     public let date: Date
     
-    public required init?(coder: NSCoder) {
-        let precipitationRawValue: Int = coder.decodeInteger(forKey: #keyPath(precipitation))
+    public required convenience init?(coder: NSCoder) {
+        let precipitationRawValue: BPPrecipitation.RawValue = coder.decodeInteger(forKey: #keyPath(precipitation))
         
         guard
             let precipitation: BPPrecipitation = .init(rawValue: precipitationRawValue),
@@ -23,12 +23,12 @@ import WeatherKit
         
         let precipitationChance: Double = coder.decodeDouble(forKey: #keyPath(precipitationChance))
         
-        self.precipitation = precipitation
-        self.precipitationChance = precipitationChance
-        self.precipitationIntensity = precipitationIntensity
-        self.date = date
-        
-        super.init()
+        self.init(
+            precipitation: precipitation,
+            precipitationChance: precipitationChance,
+            precipitationIntensity: precipitationIntensity,
+            date: date
+        )
     }
     
     @nonobjc public convenience init(minuteWeather: MinuteWeather) {

@@ -18,8 +18,8 @@ import WeatherKit
     public let uvIndex: BPUVIndex
     public let symbolName: String
     
-    public required init?(coder: NSCoder) {
-        let conditionRawValue: Int = coder.decodeInteger(forKey: #keyPath(condition))
+    public required convenience init?(coder: NSCoder) {
+        let conditionRawValue: BPWeatherCondition.RawValue = coder.decodeInteger(forKey: #keyPath(condition))
         
         guard
             let highTemperature: Measurement<UnitTemperature> = coder.decodeObject(forKey: #keyPath(highTemperature)) as? Measurement<UnitTemperature>,
@@ -40,21 +40,21 @@ import WeatherKit
         
         let precipitationChance: Double = coder.decodeDouble(forKey: #keyPath(precipitationChance))
         
-        self.highTemperature = highTemperature
-        self.lowTemperature = lowTemperature
-        self.precipitation = precipitation
-        self.precipitationChance = precipitationChance
-        self.precipitationAmount = precipitationAmount
-        self.snowfallAmount = snowfallAmount
-        self.moon = moon
-        self.sun = sun
-        self.wind = wind
-        self.date = date
-        self.condition = condition
-        self.uvIndex = uvIndex
-        self.symbolName = symbolName
-        
-        super.init()
+        self.init(
+            highTemperature: highTemperature,
+            lowTemperature: lowTemperature,
+            precipitation: precipitation,
+            precipitationChance: precipitationChance,
+            precipitationAmount: precipitationAmount,
+            snowfallAmount: snowfallAmount,
+            moon: moon,
+            sun: sun,
+            wind: wind,
+            date: date,
+            condition: condition,
+            uvIndex: uvIndex,
+            symbolName: symbolName
+        )
     }
     
     @nonobjc public convenience init(dayWeather: DayWeather) {

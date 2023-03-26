@@ -20,9 +20,9 @@ import WeatherKit
     public let metadata: BPWeatherMetadata
     public let symbolName: String
     
-    public required init?(coder: NSCoder) {
-        let pressureTrendRawValue: Int = coder.decodeInteger(forKey: #keyPath(pressureTrend))
-        let conditionRawValue: Int = coder.decodeInteger(forKey: #keyPath(condition))
+    public required convenience init?(coder: NSCoder) {
+        let pressureTrendRawValue: BPPressureTrend.RawValue = coder.decodeInteger(forKey: #keyPath(pressureTrend))
+        let conditionRawValue: BPWeatherCondition.RawValue = coder.decodeInteger(forKey: #keyPath(condition))
         
         guard
             let apparentTemperature: Measurement<UnitTemperature> = coder.decodeObject(forKey: #keyPath(apparentTemperature)) as? Measurement<UnitTemperature>,
@@ -45,23 +45,23 @@ import WeatherKit
         let cloudCover: Double = coder.decodeDouble(forKey: #keyPath(cloudCover))
         let isDaylight: Bool = coder.decodeBool(forKey: #keyPath(isDaylight))
         
-        self.apparentTemperature = apparentTemperature
-        self.dewPoint = dewPoint
-        self.humidity = humidity
-        self.temperature = temperature
-        self.pressure = pressure
-        self.pressureTrend = pressureTrend
-        self.wind = wind
-        self.cloudCover = cloudCover
-        self.condition = condition
-        self.date = date
-        self.isDaylight = isDaylight
-        self.uvIndex = uvIndex
-        self.visibility = visibility
-        self.metadata = metadata
-        self.symbolName = symbolName
-        
-        super.init()
+        self.init(
+            apparentTemperature: apparentTemperature,
+            dewPoint: dewPoint,
+            humidity: humidity,
+            temperature: temperature,
+            pressure: pressure,
+            pressureTrend: pressureTrend,
+            wind: wind,
+            cloudCover: cloudCover,
+            condition: condition,
+            date: date,
+            isDaylight: isDaylight,
+            uvIndex: uvIndex,
+            visibility: visibility,
+            metadata: metadata,
+            symbolName: symbolName
+        )
     }
     
     @nonobjc public convenience init(currentWeather: CurrentWeather) {

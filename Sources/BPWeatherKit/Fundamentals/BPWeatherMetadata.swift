@@ -9,7 +9,7 @@ import WeatherKit
     public let expirationDate: Date
     public let location: CLLocation
     
-    public required init?(coder: NSCoder) {
+    public required convenience init?(coder: NSCoder) {
         guard
             let date: Date = coder.decodeObject(forKey: #keyPath(date)) as? Date,
             let expirationDate: Date = coder.decodeObject(forKey: #keyPath(expirationDate)) as? Date,
@@ -18,11 +18,11 @@ import WeatherKit
             return nil
         }
         
-        self.date = date
-        self.expirationDate = expirationDate
-        self.location = location
-        
-        super.init()
+        self.init(
+            date: date,
+            expirationDate: expirationDate,
+            location: location
+        )
     }
     
     @nonobjc public convenience init(metadata: WeatherMetadata) {

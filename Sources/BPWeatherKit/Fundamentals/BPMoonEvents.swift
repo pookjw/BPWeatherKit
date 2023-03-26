@@ -8,8 +8,8 @@ import WeatherKit
     public let moonset: Date?
     public let phase: BPMoonPhase
     
-    public required init?(coder: NSCoder) {
-        let phaseRawValue: Int = coder.decodeInteger(forKey: #keyPath(phase))
+    public required convenience init?(coder: NSCoder) {
+        let phaseRawValue: BPMoonPhase.RawValue = coder.decodeInteger(forKey: #keyPath(phase))
         
         guard let phase: BPMoonPhase = .init(rawValue: phaseRawValue) else {
             return nil
@@ -18,11 +18,11 @@ import WeatherKit
         let moonrise: Date? = coder.decodeObject(forKey: #keyPath(moonrise)) as? Date
         let moonset: Date? = coder.decodeObject(forKey: #keyPath(moonset)) as? Date
         
-        self.moonrise = moonrise
-        self.moonset = moonset
-        self.phase = phase
-        
-        super.init()
+        self.init(
+            moonrise: moonrise,
+            moonset: moonset,
+            phase: phase
+        )
     }
     
     @nonobjc public convenience init(moonEvents: MoonEvents) {

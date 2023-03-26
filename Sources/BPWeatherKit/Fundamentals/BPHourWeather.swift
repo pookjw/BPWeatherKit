@@ -22,10 +22,10 @@ import WeatherKit
     public let precipitationAmount: Measurement<UnitLength>
     public let symbolName: String
     
-    public required init?(coder: NSCoder) {
-        let pressureTrendRawValue: Int = coder.decodeInteger(forKey: #keyPath(pressureTrend))
-        let conditionRawValue: Int = coder.decodeInteger(forKey: #keyPath(condition))
-        let precipitationRawValue: Int = coder.decodeInteger(forKey: #keyPath(precipitation))
+    public required convenience init?(coder: NSCoder) {
+        let pressureTrendRawValue: BPPressureTrend.RawValue = coder.decodeInteger(forKey: #keyPath(pressureTrend))
+        let conditionRawValue: BPWeatherCondition.RawValue = coder.decodeInteger(forKey: #keyPath(condition))
+        let precipitationRawValue: BPPrecipitation.RawValue = coder.decodeInteger(forKey: #keyPath(precipitation))
         
         guard
             let apparentTemperature: Measurement<UnitTemperature> = coder.decodeObject(forKey: #keyPath(apparentTemperature)) as? Measurement<UnitTemperature>,
@@ -50,25 +50,25 @@ import WeatherKit
         let isDaylight: Bool = coder.decodeBool(forKey: #keyPath(isDaylight))
         let precipitationChance: Double = coder.decodeDouble(forKey: #keyPath(precipitationChance))
         
-        self.apparentTemperature = apparentTemperature
-        self.humidity = humidity
-        self.temperature = temperature
-        self.dewPoint = dewPoint
-        self.pressure = pressure
-        self.pressureTrend = pressureTrend
-        self.cloudCover = cloudCover
-        self.condition = condition
-        self.isDaylight = isDaylight
-        self.visibility = visibility
-        self.uvIndex = uvIndex
-        self.wind = wind
-        self.date = date
-        self.precipitation = precipitation
-        self.precipitationChance = precipitationChance
-        self.precipitationAmount = precipitationAmount
-        self.symbolName = symbolName
-        
-        super.init()
+        self.init(
+            apparentTemperature: apparentTemperature,
+            humidity: humidity,
+            temperature: temperature,
+            dewPoint: dewPoint,
+            pressure: pressure,
+            pressureTrend: pressureTrend,
+            cloudCover: cloudCover,
+            condition: condition,
+            isDaylight: isDaylight,
+            visibility: visibility,
+            uvIndex: uvIndex,
+            wind: wind,
+            date: date,
+            precipitation: precipitation,
+            precipitationChance: precipitationChance,
+            precipitationAmount: precipitationAmount,
+            symbolName: symbolName
+        )
     }
     
     @nonobjc public convenience init(hourWeather: HourWeather) {

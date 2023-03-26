@@ -9,9 +9,9 @@ import WeatherKit
     public let dailyForecast: BPForecast
     public let hourlyForecast: BPForecast
     public let minuteForecast: BPForecast?
-//    public let weatherAlerts: [BPWeatherAlert]?
+    public let weatherAlerts: [BPWeatherAlert]?
     
-    public required init?(coder: NSCoder) {
+    public required convenience init?(coder: NSCoder) {
         guard
             let availability: BPWeatherAvailablity = coder.decodeObject(forKey: #keyPath(availability)) as? BPWeatherAvailablity,
             let currentWeather: BPCurrentWeather = coder.decodeObject(forKey: #keyPath(currentWeather)) as? BPCurrentWeather,
@@ -22,14 +22,16 @@ import WeatherKit
         }
         
         let minuteForecast: BPForecast? = coder.decodeObject(forKey: #keyPath(minuteForecast)) as? BPForecast
+        let weatherAlerts: [BPWeatherAlert]? = coder.decodeObject(forKey: #keyPath(weatherAlerts)) as? [BPWeatherAlert]
         
-        self.availability = availability
-        self.currentWeather = currentWeather
-        self.dailyForecast = dailyForecast
-        self.hourlyForecast = hourlyForecast
-        self.minuteForecast = minuteForecast
-        
-        super.init()
+        self.init(
+            availability: availability,
+            currentWeather: currentWeather,
+            dailyForecast: dailyForecast,
+            hourlyForecast: hourlyForecast,
+            minuteForecast: minuteForecast,
+            weatherAlerts: weatherAlerts
+        )
     }
     
     @nonobjc public convenience init(weather: Weather) {
@@ -45,7 +47,8 @@ import WeatherKit
             currentWeather: .init(currentWeather: weather.currentWeather),
             dailyForecast: .init(dailyForecast: weather.dailyForecast),
             hourlyForecast: .init(hourlyForecast: weather.hourlyForecast),
-            minuteForecast: minuteForecast
+            minuteForecast: minuteForecast,
+            weatherAlerts: weather.weatherAlerts?.map { BPWeatherAlert(weatherAlert: $0) }
         )
     }
     
@@ -54,13 +57,15 @@ import WeatherKit
         currentWeather: BPCurrentWeather,
         dailyForecast: BPForecast,
         hourlyForecast: BPForecast,
-        minuteForecast: BPForecast?
+        minuteForecast: BPForecast?,
+        weatherAlerts: [BPWeatherAlert]?
     ) {
         self.availability = availability
         self.currentWeather = currentWeather
         self.dailyForecast = dailyForecast
         self.hourlyForecast = hourlyForecast
         self.minuteForecast = minuteForecast
+        self.weatherAlerts = weatherAlerts
         
         super.init()
     }
@@ -71,6 +76,7 @@ import WeatherKit
         coder.encode(dailyForecast, forKey: #keyPath(dailyForecast))
         coder.encode(hourlyForecast, forKey: #keyPath(hourlyForecast))
         coder.encode(minuteForecast, forKey: #keyPath(minuteForecast))
+        coder.encode(weatherAlerts, forKey: #keyPath(weatherAlerts))
     }
     
     open func copy(with zone: NSZone? = nil) -> Any {
@@ -79,7 +85,8 @@ import WeatherKit
             currentWeather: currentWeather,
             dailyForecast: dailyForecast,
             hourlyForecast: hourlyForecast,
-            minuteForecast: minuteForecast
+            minuteForecast: minuteForecast,
+            weatherAlerts: weatherAlerts
         )
     }
 }

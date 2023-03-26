@@ -49,9 +49,9 @@ import WeatherKit
     public let alertAvailability: AvailabilityKind
     public let minuteAvailability: AvailabilityKind
     
-    public required init?(coder: NSCoder) {
-        let alertAvailabilityRawValue: Int = coder.decodeInteger(forKey: #keyPath(alertAvailability))
-        let minuteAvailabilityRawValue: Int = coder.decodeInteger(forKey: #keyPath(minuteAvailability))
+    public required convenience init?(coder: NSCoder) {
+        let alertAvailabilityRawValue: AvailabilityKind.RawValue = coder.decodeInteger(forKey: #keyPath(alertAvailability))
+        let minuteAvailabilityRawValue: AvailabilityKind.RawValue = coder.decodeInteger(forKey: #keyPath(minuteAvailability))
         
         guard
             let alertAvailability: AvailabilityKind = .init(rawValue: alertAvailabilityRawValue),
@@ -60,10 +60,10 @@ import WeatherKit
             return nil
         }
         
-        self.alertAvailability = alertAvailability
-        self.minuteAvailability = minuteAvailability
-        
-        super.init()
+        self.init(
+            alertAvailability: alertAvailability,
+            minuteAvailability: minuteAvailability
+        )
     }
     
     @nonobjc public convenience init(weatherAvailablity: WeatherAvailability) {
