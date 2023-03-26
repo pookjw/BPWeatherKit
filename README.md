@@ -2,7 +2,7 @@
 
 WeatherKit for Objective-C
 
-BP is abbreviation for Back to the Past!
+BP is the abbreviation for Back to the Past!
 
 ## Usage
 
