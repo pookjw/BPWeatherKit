@@ -9,6 +9,7 @@ import WeatherKit
     public let dailyForecast: BPForecast
     public let hourlyForecast: BPForecast
     public let minuteForecast: BPForecast?
+//    public let weatherAlerts: [BPWeatherAlert]?
     
     public required init?(coder: NSCoder) {
         guard
