@@ -93,13 +93,20 @@ import WeatherKit
     }
     
     open func copy(with zone: NSZone? = nil) -> Any {
-        BPWeather(
-            availability: availability,
-            currentWeather: currentWeather,
-            dailyForecast: dailyForecast,
-            hourlyForecast: hourlyForecast,
-            minuteForecast: minuteForecast,
-            weatherAlerts: weatherAlerts
+        let weatherAlertsCopy: [BPWeatherAlert]?
+        if let weatherAlerts: [BPWeatherAlert] {
+            weatherAlertsCopy = (weatherAlerts as NSArray).copy() as! [BPWeatherAlert]?
+        } else {
+            weatherAlertsCopy = nil
+        }
+        
+        return BPWeather(
+            availability: availability.copy() as! BPWeatherAvailablity,
+            currentWeather: currentWeather.copy() as! BPCurrentWeather,
+            dailyForecast: dailyForecast.copy() as! BPForecast,
+            hourlyForecast: hourlyForecast.copy() as! BPForecast,
+            minuteForecast: minuteForecast?.copy() as! BPForecast?,
+            weatherAlerts: weatherAlertsCopy
         )
     }
     

@@ -167,14 +167,14 @@ import WeatherKit
             temperature: temperature,
             pressure: pressure,
             pressureTrend: pressureTrend,
-            wind: wind,
+            wind: wind.copy() as! BPWind,
             cloudCover: cloudCover,
             condition: condition,
             date: date,
             isDaylight: isDaylight,
-            uvIndex: uvIndex,
+            uvIndex: uvIndex.copy() as! BPUVIndex,
             visibility: visibility,
-            metadata: metadata,
+            metadata: metadata.copy() as! BPWeatherMetadata,
             symbolName: symbolName
         )
     }
