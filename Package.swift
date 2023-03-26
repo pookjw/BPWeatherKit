@@ -24,16 +24,6 @@ let package = Package(
             swiftSettings: [
                 .unsafeFlags(["-strict-concurrency=complete"])
             ]
-        ),
-        .testTarget(
-            name: "BPWeatherKitTests",
-            dependencies: ["BPWeatherKit"],
-            cSettings: [
-                .unsafeFlags(["-fno-objc-arc", "-fno-objc-weak"])
-            ],
-            swiftSettings: [
-                .unsafeFlags(["-strict-concurrency=complete"])
-            ]
         )
     ]
 )

@@ -35,10 +35,7 @@
     ];
     
     [BPWeatherService.sharedInstance weatherForLocation:location includingQueries:queires completionHandler:^(NSArray * _Nullable results, NSError * _Nullable error) {
-        NSLog(@"%@ %@", results, error);
-        [results enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSLog(@"%d", [obj hash]);
-        }];
+        NSLog(@"%@", results);
     }];
     
     [manager stopUpdatingLocation];
